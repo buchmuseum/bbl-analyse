@@ -13,7 +13,7 @@ xml_soup = soup(suche_xml, "xml")
 #ergebnisse der ersten suche werden in output-file geschrieben
 for record in xml_soup.find_all("record"):
     slub_id = record.find("slub:id").string
-    with open("./" + slub_id + ".mets", mode='a+') as file:
+    with open("./data/" + slub_id + ".mets", mode='a+') as file:
         file.write(record.prettify())
   
 resumption_token = xml_soup.find('resumptionToken').string
@@ -39,33 +39,8 @@ while weiter == True:
 
     for record in xml_soup_new.find_all("record"):
         slub_id = record.find("slub:id").string
-        with open("./" + slub_id + ".mets", mode='a+') as file:
+        with open("./data/" + slub_id + ".mets", mode='a+') as file:
             file.write(record.prettify())
  
     resumption_token = new_token
     print (resumption_token)
-
-
-
-
-
-
-
-
-#complete_list_size = int(xml_soup.resumptionToken['completeListSize'])
-#cursor = int(xml_soup.resumptionToken['cursor'])
-
-
-
-# for record in xml_soup.ListRecords:
-#     seiten = len(record.find("mets:fileGrp", USE='MIN'))
-#     slub_id = record.find("slub:id", limit=1).string
-
-
-
-
-
-
-# ######
-# record.metadata.mets:mets.mets:fileSec.mets:fileGrp USE="MIN".mets:file
-# return len(soup.find_all(tag_name))
