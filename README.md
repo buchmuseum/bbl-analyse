@@ -1,6 +1,10 @@
-# Analyse des Umfangs des Börsenblatts für den Deutschen Buchhandel 1834-1945
+# Skripte zur Analyse des Börsenblatts für den Deutschen Buchhandel 1834-1945
 
-Über die OAI-Schnittstelle der Sächsischen Landesbibliothek SLUB werden die METS-Metadaten zu den Digitalisaten des Börsenblatts für den Deutschen Buchhandel heruntergeladen. Aus den Daten wird die Anzahl der Seiten pro Ausgabe ausgeladen und als csv gespeichert. Das Ergebnis wird mit Dash/Plotly als interaktives Diagramm dargestellt.
+Über die OAI-Schnittstelle der Sächsischen Landesbibliothek SLUB werden die METS-Metadaten zu den Digitalisaten des Börsenblatts für den Deutschen Buchhandel heruntergeladen. Mit verschiedenen Skripten wurden diese Daten unterschiedlich ausgewertet.
+
+Aus den Daten wird die Anzahl der Seiten pro Ausgabe ausgelesen und als csv gespeichert. Das Ergebnis wird mit Dash/Plotly als interaktives Diagramm dargestellt.
+
+Ein anderes Skript lädt die ALTO-XML-Dateien, die den Volltext der digitalisierten Seiten enthalten und analysiert die Anzahl der erkannten Zeilen, um daraus Rückschlüsse auf den Inhalt der Seite zu ziehen.
 
 ## bbl-xml-grab.py
 mets-daten über die OAI-Schnittstelle der SLUB laden, für jedes heft eine einzelne xml-datei anlegen
