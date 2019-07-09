@@ -9,9 +9,10 @@ import plotly.offline as py
 import plotly.graph_objs as go
 
 
-def download_pages():
-    files = '/home/dbsm-user/data/Skripte/data/Börsenblatt/bbl-mets-data-20190703/*.mets'
-    for mets in glob(files):
+def download_pages(path):
+    """Download the ALTO files from the METS files in the given <path>."""
+    # files = '/home/dbsm-user/data/Skripte/data/Börsenblatt/bbl-mets-data-20190703/*.mets'
+    for mets in glob(path):
         print(mets)
         with open(mets) as m:
             xml = m.read()
@@ -32,8 +33,9 @@ def download_pages():
                     f.write(xml_suppe.prettify())
             
 
-def load_files(year):
-    files = "/home/dbsm-user/data/Skripte/data/Börsenblatt/Einzelseiten/39946221X-{}*.xml".format(year)
+def load_files(path, year):
+    """Load the files in the given <path> for the given <year>."""
+    files = "{}-{}*.xml".format(path, year)
     for xml_file in glob(files):
         with open(xml_file) as f:
             name = os.path.basename(f.name)
@@ -43,6 +45,7 @@ def load_files(year):
             yield name, xml_soup
 
 def count_blocks(xml_soup):
+    """Count the TextBlock tags in the given BeautifulSoup object."""
     blocks = xml_soup.find_all('TextBlock')
     if not blocks:
     	return 0
@@ -50,37 +53,42 @@ def count_blocks(xml_soup):
     	return len(blocks)
 
 def count_lines(xml_soup):
+    """Count the TextLine tags in the given BeautifulSoup object."""
     lines = xml_soup.find_all('TextLine')
     if not lines:
         return 0
     else:
         return len(lines)
 
-def collect_data(year):
+def collect_data(path, year):
+    """Collect the data in the ALTO files in <path> for <year>."""
     data = {'filename': [],
             'blocks': [],
             'lines': []}
-    for name, xml_soup in load_files(year):
+    for name, xml_soup in load_files(path, year):
         data['filename'].append(name)
         data['blocks'].append(count_blocks(xml_soup))
         data['lines'].append(count_lines(xml_soup))
     return data
     
-def save_data(year):
-    data = collect_data(year)
+def save_data(path, year):
+    """Save the data from the ALTO files in <path> for <year> in "data/<year>.csv"."""
+    data = collect_data(path, year)
     df = pd.DataFrame(data)
     df.to_csv("data/{}.csv".format(year))
-    print("Daten gesichert in: data{}.csv".format(year))
+    print("Daten gesichert in: data/{}.csv".format(year))
     #with open('data.csv', 'w') as f:
         #w = csv.DictWriter(f, data.keys())
         #w.writeheader()
         #w.writerow(data)
 
 def load_csv(year):
+    """Load the CSV file for <year>."""
     df = pd.read_csv("data/{}.csv".format(year))
     return df
 
 def plot(year):
+    """Plot a bar chart for <year>."""
     df = load_csv(year)
     blocks = go.Bar(x=list(df['filename']), y=list(df['blocks']))
     lines = go.Bar(x=list(df['filename']), y=list(df['lines']))
