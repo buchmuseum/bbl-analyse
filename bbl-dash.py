@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime as dt
 
-df = pd.read_csv("seitenliste_clean.csv", delimiter=",")
+df = pd.read_csv("seitenliste_clean_neu.csv", delimiter=",")
 df.ausgabe = pd.to_datetime(df.ausgabe)
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -13,7 +13,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div(children=[
-    html.H1('Seitenverteilung Börsenblatt'),
+    # html.H1('Seitenverteilung Börsenblatt'),
 
     dcc.Graph(
         id='bbl-seiten',
