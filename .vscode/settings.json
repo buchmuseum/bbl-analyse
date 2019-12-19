@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "/anaconda/envs/py37/bin/python",
+    "git.ignoreLimitWarning": true
+}
